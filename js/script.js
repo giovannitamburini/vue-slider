@@ -34,14 +34,20 @@ createApp({
             ],
 
             index: 0,
+
+            timer: {},
         }
     },
 
     methods: {
+
+        showSlide (slideIndex) {
+            this.index = slideIndex;
+        },
         
         prevSlide() {
 
-            if (this.index == 0) {
+            if (this.index <= 0) {
                 this.index = this.slides.length - 1;
             } else {
                 this.index--;
@@ -50,12 +56,29 @@ createApp({
 
         nextSlide() {
 
-            if (this.index == this.slides.length - 1) {
+            if (this.index >= this.slides.length - 1) {
                 this.index = 0;
             } else {
                 this.index++;
             }
+        },
+
+        stopTimer () {
+            clearInterval(this.timer);
+        },
+
+        startTimer() {
+            this.timer = setInterval(() => {
+                this.nextSlide();
+            }, 3000)
         }
     },
+
+    mounted () {
+        this.timer = setInterval(() => {
+            this.nextSlide();
+        },3000)
+    },
+
 
 }).mount('#app')
